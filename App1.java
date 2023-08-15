@@ -22,6 +22,7 @@ public class App1 {
 
         String screen = DASHBOARD;
         String[] holders = {};
+        int deposit = 0;
 
         do{
             final String APP_TITLE = String.format("%s%s%s",
@@ -43,6 +44,7 @@ public class App1 {
                 int option = scanner.nextInt();
                 scanner.nextLine();
 
+
                 switch (option){
                     case 1:screen = CREATE_ACCOUNT; break;
                     case 2:screen = DEPOSITS; break;
@@ -56,11 +58,11 @@ public class App1 {
                 break;
 
             case CREATE_ACCOUNT:
-                System.out.printf("ID: SDB-%03d \n", (holders.length + 1));
+                System.out.printf("ID: SDB-%05d \n", (holders.length + 1));
 
                 boolean valid = true;
                 String name;
-                int deposit = 0;
+                
 
                 // Name Validation
                 do{
@@ -70,25 +72,28 @@ public class App1 {
                     if (name.isBlank()) {
                         System.out.printf(ERROR_MSG, "Can't be Empty");
                         valid = false;
-                    }
+                        continue;
+                        
+                    } 
                     for (int i = 0; i < holders.length; i++) {
                         if (!(Character.isLetter(name.charAt(i)) ||
                         Character.isSpaceChar(name.charAt(i)))) {
                             System.out.printf(ERROR_MSG, "Invalid Name");
                             valid = false;
+                            continue;
+                
                         }
                     }
-
                     //Deposit Amount Validation
-                    
-
                     System.out.print("Initial Deposit: ");
                     deposit = scanner.nextInt();
                     if (deposit <= 5000) {
                         System.out.printf(ERROR_MSG, "Insufficient Balance");
                         valid = false;
+                        continue;
+                        
                     }else System.out.printf(SUCCESS_MSG,
-                                String.format("%s:%s has been succesfully created. Do you want to add another (Y/n) ? ", name));
+                                String.format("SDB-%05d:%s has been succesfully created. Do you want to add another (Y/n) ? ", (holders.length + 1), name));
 
                     if (scanner.nextLine().strip().toUpperCase().equals("Y"))
 screen = DASHBOARD;
@@ -111,10 +116,10 @@ screen = DASHBOARD;
                         valid = false;
                         break;
                     }
-
+                    
                     int depositAmount;
                     //Current Balance Validation
-                    System.out.print("Current Balance: ");
+                    System.out.printf("Current Balance: %d", deposit);
 
                     System.out.print("Deposit Amount: ");
                     depositAmount = scanner.nextInt();
